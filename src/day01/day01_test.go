@@ -1,4 +1,4 @@
-package main
+package day01
 
 import (
 	"os"
@@ -7,7 +7,7 @@ import (
 
 func TestPart1(t *testing.T) {
 	expected := 75501
-	input, err := os.ReadFile("./inputs/part1.txt")
+	input, err := os.ReadFile("../../inputs/day01/part1.txt")
 	if err != nil { panic(err) }
 
 	actual := part1(getCalsPerElf(string(input)))
@@ -19,7 +19,7 @@ func TestPart1(t *testing.T) {
 
 func TestPart2(t *testing.T) {
 	expected := 215594
-	input, err := os.ReadFile("./inputs/part1.txt")
+	input, err := os.ReadFile("../../inputs/day01/part1.txt")
 	if err != nil { panic(err) }
 
 	actual := part2(getCalsPerElf(string(input)))

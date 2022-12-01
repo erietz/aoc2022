@@ -1,21 +1,16 @@
-package main
+package day01
 
 import (
 	"fmt"
-	"io"
-	"os"
 	"sort"
 	"strconv"
 	"strings"
+
+	"github.com/erietz/aoc2022/src"
 )
 
-func main() {
-	bytes, err := io.ReadAll(os.Stdin)
-	if err != nil {
-		panic(err)
-	}
-
-	caloriesPerElf := getCalsPerElf(string(bytes))
+func Solve(input string) {
+	caloriesPerElf := getCalsPerElf(input)
 	caloriesPart1 := part1(caloriesPerElf)
 	caloriesPart2 := part2(caloriesPerElf)
 
@@ -24,7 +19,7 @@ func main() {
 }
 
 func part1(calsPerElf []int) int {
-	_, max := minMax(calsPerElf)
+	_, max := aoc.MinMax(calsPerElf)
 	return max
 }
 
@@ -58,18 +53,4 @@ func part2(calsPerElf []int) int {
 		sum += v
 	}
 	return sum
-}
-
-func minMax(array []int) (int, int) {
-	min := array[0]
-	max := array[0]
-	for _, v := range array {
-		if v < min {
-			min = v
-		}
-		if v > max {
-			max = v
-		}
-	}
-	return min, max
 }
