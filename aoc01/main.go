@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -14,12 +15,20 @@ func main() {
 		panic(err)
 	}
 
-	caloriesPart1 := part1(string(bytes))
+	caloriesPerElf := getCalsPerElf(string(bytes))
+	caloriesPart1 := part1(caloriesPerElf)
+	caloriesPart2 := part2(caloriesPerElf)
 
 	fmt.Printf("Calories Part 1: %v\n", caloriesPart1)
+	fmt.Printf("Calories Part 2: %v\n", caloriesPart2)
 }
 
-func part1(input string) int {
+func part1(calsPerElf []int) int {
+	_, max := minMax(calsPerElf)
+	return max
+}
+
+func getCalsPerElf(input string) []int {
 	data := strings.Split(input, "\n")
 	calsPerElf := []int{}
 
@@ -37,8 +46,18 @@ func part1(input string) int {
 		}
 		cals += numCals
 	}
-	_, max := minMax(calsPerElf)
-	return max
+	return calsPerElf
+}
+
+func part2(calsPerElf []int) int {
+	tmp := append([]int{}, calsPerElf...)
+	sort.Ints(tmp)
+
+	sum := 0
+	for _, v := range tmp[len(tmp)-3:] {
+		sum += v
+	}
+	return sum
 }
 
 func minMax(array []int) (int, int) {
