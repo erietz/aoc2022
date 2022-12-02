@@ -1,10 +1,9 @@
 package day02
 
 import (
-	"testing"
 	"os"
+	"testing"
 )
-
 
 func TestPart1(t *testing.T) {
 	input, err := os.ReadFile("../../inputs/day02/part1.txt")
@@ -41,4 +40,3 @@ func TestPart2(t *testing.T) {
 	}
 
 }
-

@@ -83,7 +83,7 @@ func parseStrategyGuide(input string) []RawChoice {
 		choices := strings.Split(line, " ")
 		rawChoice := RawChoice{
 			elfChoice: choices[0],
-			myChoice: choices[1],
+			myChoice:  choices[1],
 		}
 		rawChoices = append(rawChoices, rawChoice)
 	}
@@ -91,60 +91,60 @@ func parseStrategyGuide(input string) []RawChoice {
 }
 
 func (rc *RawChoice) ToChoicePart1() Choice {
-		choice := Choice{}
+	choice := Choice{}
 
-		switch rc.elfChoice {
-		case "A":
-			choice.elfChoice = ROCK
-		case "B":
-			choice.elfChoice = PAPER
-		case "C":
-			choice.elfChoice = SCIZZORS
-		}
+	switch rc.elfChoice {
+	case "A":
+		choice.elfChoice = ROCK
+	case "B":
+		choice.elfChoice = PAPER
+	case "C":
+		choice.elfChoice = SCIZZORS
+	}
 
-		switch rc.myChoice {
-		case "X":
-			choice.myChoice = ROCK
-		case "Y":
-			choice.myChoice = PAPER
-		case "Z":
-			choice.myChoice = SCIZZORS
-		}
+	switch rc.myChoice {
+	case "X":
+		choice.myChoice = ROCK
+	case "Y":
+		choice.myChoice = PAPER
+	case "Z":
+		choice.myChoice = SCIZZORS
+	}
 	return choice
 }
 
 func (rc *RawChoice) ToChoicePart2() Choice {
-		choice := Choice{}
+	choice := Choice{}
 
-		switch {
-		case rc.elfChoice == "A" && rc.myChoice == "X": // lose
-			choice.elfChoice = ROCK
-			choice.myChoice = SCIZZORS
-		case rc.elfChoice == "A" && rc.myChoice == "Y": // draw
-			choice.elfChoice = ROCK
-			choice.myChoice = ROCK
-		case rc.elfChoice == "A" && rc.myChoice == "Z": // win
-			choice.elfChoice = ROCK
-			choice.myChoice = PAPER
-		case rc.elfChoice == "B" && rc.myChoice == "X": // lose
-			choice.elfChoice = PAPER
-			choice.myChoice = ROCK
-		case rc.elfChoice == "B" && rc.myChoice == "Y": // draw
-			choice.elfChoice = PAPER
-			choice.myChoice = PAPER
-		case rc.elfChoice == "B" && rc.myChoice == "Z": // win
-			choice.elfChoice = PAPER
-			choice.myChoice = SCIZZORS
-		case rc.elfChoice == "C" && rc.myChoice == "X": // lose
-			choice.elfChoice = SCIZZORS
-			choice.myChoice = PAPER
-		case rc.elfChoice == "C" && rc.myChoice == "Y": // draw
-			choice.elfChoice = SCIZZORS
-			choice.myChoice = SCIZZORS
-		case rc.elfChoice == "C" && rc.myChoice == "Z": // win
-			choice.elfChoice = SCIZZORS
-			choice.myChoice = ROCK
-		}
+	switch {
+	case rc.elfChoice == "A" && rc.myChoice == "X": // lose
+		choice.elfChoice = ROCK
+		choice.myChoice = SCIZZORS
+	case rc.elfChoice == "A" && rc.myChoice == "Y": // draw
+		choice.elfChoice = ROCK
+		choice.myChoice = ROCK
+	case rc.elfChoice == "A" && rc.myChoice == "Z": // win
+		choice.elfChoice = ROCK
+		choice.myChoice = PAPER
+	case rc.elfChoice == "B" && rc.myChoice == "X": // lose
+		choice.elfChoice = PAPER
+		choice.myChoice = ROCK
+	case rc.elfChoice == "B" && rc.myChoice == "Y": // draw
+		choice.elfChoice = PAPER
+		choice.myChoice = PAPER
+	case rc.elfChoice == "B" && rc.myChoice == "Z": // win
+		choice.elfChoice = PAPER
+		choice.myChoice = SCIZZORS
+	case rc.elfChoice == "C" && rc.myChoice == "X": // lose
+		choice.elfChoice = SCIZZORS
+		choice.myChoice = PAPER
+	case rc.elfChoice == "C" && rc.myChoice == "Y": // draw
+		choice.elfChoice = SCIZZORS
+		choice.myChoice = SCIZZORS
+	case rc.elfChoice == "C" && rc.myChoice == "Z": // win
+		choice.elfChoice = SCIZZORS
+		choice.myChoice = ROCK
+	}
 	return choice
 }
 
