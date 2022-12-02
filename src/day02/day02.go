@@ -30,9 +30,21 @@ type Score struct {
 }
 
 func Solve(input string) {
+	elfScore, myScore := part1(input)
+	fmt.Println("Part 1")
+	fmt.Printf("Elf Score: %v\n", elfScore)
+	fmt.Printf("My Score: %v\n", myScore)
 
+	fmt.Println()
+	elfScore, myScore = part2(input)
+	fmt.Println("Part 2")
+	fmt.Printf("Elf Score: %v\n", elfScore)
+	fmt.Printf("My Score: %v\n", myScore)
+}
+
+func part1(input string) (int, int) {
 	rawChoices := parseStrategyGuide(input)
-	choices := parseRawChoices(rawChoices)
+	choices := parseRawChoicesPart1(rawChoices)
 	scores := tallyScores(choices)
 
 	elfScore := 0
@@ -42,9 +54,22 @@ func Solve(input string) {
 		myScore += score.myScore
 	}
 
-	fmt.Printf("Elf Score: %v\n", elfScore)
-	fmt.Printf("My Score: %v\n", myScore)
+	return elfScore, myScore
+}
 
+func part2(input string) (int, int) {
+	rawChoices := parseStrategyGuide(input)
+	choices := parseRawChoicesPart2(rawChoices)
+	scores := tallyScores(choices)
+
+	elfScore := 0
+	myScore := 0
+	for _, score := range scores {
+		elfScore += score.elfScore
+		myScore += score.myScore
+	}
+
+	return elfScore, myScore
 }
 
 func parseStrategyGuide(input string) []RawChoice {
@@ -65,7 +90,7 @@ func parseStrategyGuide(input string) []RawChoice {
 	return rawChoices
 }
 
-func (rc *RawChoice) ToChoice() Choice {
+func (rc *RawChoice) ToChoicePart1() Choice {
 		choice := Choice{}
 
 		switch rc.elfChoice {
@@ -88,10 +113,54 @@ func (rc *RawChoice) ToChoice() Choice {
 	return choice
 }
 
-func parseRawChoices(rawChoices []RawChoice) []Choice {
+func (rc *RawChoice) ToChoicePart2() Choice {
+		choice := Choice{}
+
+		switch {
+		case rc.elfChoice == "A" && rc.myChoice == "X": // lose
+			choice.elfChoice = ROCK
+			choice.myChoice = SCIZZORS
+		case rc.elfChoice == "A" && rc.myChoice == "Y": // draw
+			choice.elfChoice = ROCK
+			choice.myChoice = ROCK
+		case rc.elfChoice == "A" && rc.myChoice == "Z": // win
+			choice.elfChoice = ROCK
+			choice.myChoice = PAPER
+		case rc.elfChoice == "B" && rc.myChoice == "X": // lose
+			choice.elfChoice = PAPER
+			choice.myChoice = ROCK
+		case rc.elfChoice == "B" && rc.myChoice == "Y": // draw
+			choice.elfChoice = PAPER
+			choice.myChoice = PAPER
+		case rc.elfChoice == "B" && rc.myChoice == "Z": // win
+			choice.elfChoice = PAPER
+			choice.myChoice = SCIZZORS
+		case rc.elfChoice == "C" && rc.myChoice == "X": // lose
+			choice.elfChoice = SCIZZORS
+			choice.myChoice = PAPER
+		case rc.elfChoice == "C" && rc.myChoice == "Y": // draw
+			choice.elfChoice = SCIZZORS
+			choice.myChoice = SCIZZORS
+		case rc.elfChoice == "C" && rc.myChoice == "Z": // win
+			choice.elfChoice = SCIZZORS
+			choice.myChoice = ROCK
+		}
+	return choice
+}
+
+func parseRawChoicesPart1(rawChoices []RawChoice) []Choice {
 	choices := []Choice{}
 	for _, rc := range rawChoices {
-		choice := rc.ToChoice()
+		choice := rc.ToChoicePart1()
+		choices = append(choices, choice)
+	}
+	return choices
+}
+
+func parseRawChoicesPart2(rawChoices []RawChoice) []Choice {
+	choices := []Choice{}
+	for _, rc := range rawChoices {
+		choice := rc.ToChoicePart2()
 		choices = append(choices, choice)
 	}
 	return choices
