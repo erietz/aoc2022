@@ -29,57 +29,49 @@ type Score struct {
 	myScore  int
 }
 
+type RawChoices []RawChoice
+type Choices []Choice
+type Scores []Score
+
 func Solve(input string) {
 	elfScore, myScore := part1(input)
 	fmt.Println("Part 1")
-	fmt.Printf("Elf Score: %v\n", elfScore)
-	fmt.Printf("My Score: %v\n", myScore)
+	fmt.Printf("Elf Score: %v, My Score %v\n", elfScore, myScore)
 
 	fmt.Println()
+
 	elfScore, myScore = part2(input)
 	fmt.Println("Part 2")
-	fmt.Printf("Elf Score: %v\n", elfScore)
-	fmt.Printf("My Score: %v\n", myScore)
+	fmt.Printf("Elf Score: %v, My Score %v\n", elfScore, myScore)
 }
 
 func part1(input string) (int, int) {
 	rawChoices := parseStrategyGuide(input)
-	choices := parseRawChoicesPart1(rawChoices)
-	scores := tallyScores(choices)
-
-	elfScore := 0
-	myScore := 0
-	for _, score := range scores {
-		elfScore += score.elfScore
-		myScore += score.myScore
-	}
-
-	return elfScore, myScore
+	choices := rawChoices.Parse(true)
+	scores := choices.Tally()
+	return scores.Sum()
 }
 
 func part2(input string) (int, int) {
 	rawChoices := parseStrategyGuide(input)
-	choices := parseRawChoicesPart2(rawChoices)
-	scores := tallyScores(choices)
+	choices := rawChoices.Parse(false)
+	scores := choices.Tally()
+	return scores.Sum()
+}
 
+func (scores *Scores) Sum() (int, int) {
 	elfScore := 0
 	myScore := 0
-	for _, score := range scores {
+	for _, score := range *scores {
 		elfScore += score.elfScore
 		myScore += score.myScore
 	}
-
 	return elfScore, myScore
 }
 
-func parseStrategyGuide(input string) []RawChoice {
+func parseStrategyGuide(input string) RawChoices {
 	rawChoices := []RawChoice{}
-	for _, line := range strings.Split(input, "\n") {
-		// last line contains extra \n
-		if line == "" {
-			break
-		}
-
+	for _, line := range strings.Split(strings.TrimSpace(input), "\n") {
 		choices := strings.Split(line, " ")
 		rawChoice := RawChoice{
 			elfChoice: choices[0],
@@ -148,19 +140,15 @@ func (rc *RawChoice) ToChoicePart2() Choice {
 	return choice
 }
 
-func parseRawChoicesPart1(rawChoices []RawChoice) []Choice {
+func (rawChoices *RawChoices) Parse(part1 bool) Choices {
 	choices := []Choice{}
-	for _, rc := range rawChoices {
-		choice := rc.ToChoicePart1()
-		choices = append(choices, choice)
-	}
-	return choices
-}
-
-func parseRawChoicesPart2(rawChoices []RawChoice) []Choice {
-	choices := []Choice{}
-	for _, rc := range rawChoices {
-		choice := rc.ToChoicePart2()
+	for _, rc := range *rawChoices {
+		var choice Choice
+		if part1 {
+			choice = rc.ToChoicePart1()
+		} else {
+			choice = rc.ToChoicePart2()
+		}
 		choices = append(choices, choice)
 	}
 	return choices
@@ -201,9 +189,9 @@ func (c *Choice) ToScore() Score {
 	return score
 }
 
-func tallyScores(choices []Choice) []Score {
+func (choices *Choices) Tally() Scores {
 	scores := []Score{}
-	for _, choice := range choices {
+	for _, choice := range *choices {
 		score := choice.ToScore()
 		scores = append(scores, score)
 	}
