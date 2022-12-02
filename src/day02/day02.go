@@ -46,11 +46,11 @@ func Solve(input string) {
 }
 
 func part1(input string) (int, int) {
-	return parseRawChoices(input).ToChoices(true).TallyScores().Sum()
+	return parseRawChoices(input).ToChoices(true).ToScores().Sum()
 }
 
 func part2(input string) (int, int) {
-	return parseRawChoices(input).ToChoices(false).TallyScores().Sum()
+	return parseRawChoices(input).ToChoices(false).ToScores().Sum()
 }
 
 func (scores *Scores) Sum() (int, int) {
@@ -183,7 +183,7 @@ func (c *Choice) ToScore() Score {
 	return score
 }
 
-func (choices *Choices) TallyScores() *Scores {
+func (choices *Choices) ToScores() *Scores {
 	scores := &Scores{}
 	for _, choice := range *choices {
 		score := choice.ToScore()
