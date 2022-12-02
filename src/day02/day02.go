@@ -46,17 +46,11 @@ func Solve(input string) {
 }
 
 func part1(input string) (int, int) {
-	rawChoices := parseStrategyGuide(input)
-	choices := rawChoices.Parse(true)
-	scores := choices.Tally()
-	return scores.Sum()
+	return parseRawChoices(input).ToChoices(true).TallyScores().Sum()
 }
 
 func part2(input string) (int, int) {
-	rawChoices := parseStrategyGuide(input)
-	choices := rawChoices.Parse(false)
-	scores := choices.Tally()
-	return scores.Sum()
+	return parseRawChoices(input).ToChoices(false).TallyScores().Sum()
 }
 
 func (scores *Scores) Sum() (int, int) {
@@ -69,15 +63,15 @@ func (scores *Scores) Sum() (int, int) {
 	return elfScore, myScore
 }
 
-func parseStrategyGuide(input string) RawChoices {
-	rawChoices := []RawChoice{}
+func parseRawChoices(input string) *RawChoices {
+	rawChoices := &RawChoices{}
 	for _, line := range strings.Split(strings.TrimSpace(input), "\n") {
 		choices := strings.Split(line, " ")
 		rawChoice := RawChoice{
 			elfChoice: choices[0],
 			myChoice:  choices[1],
 		}
-		rawChoices = append(rawChoices, rawChoice)
+		*rawChoices = append(*rawChoices, rawChoice)
 	}
 	return rawChoices
 }
@@ -140,8 +134,8 @@ func (rc *RawChoice) ToChoicePart2() Choice {
 	return choice
 }
 
-func (rawChoices *RawChoices) Parse(part1 bool) Choices {
-	choices := []Choice{}
+func (rawChoices *RawChoices) ToChoices(part1 bool) *Choices {
+	choices := &Choices{}
 	for _, rc := range *rawChoices {
 		var choice Choice
 		if part1 {
@@ -149,7 +143,7 @@ func (rawChoices *RawChoices) Parse(part1 bool) Choices {
 		} else {
 			choice = rc.ToChoicePart2()
 		}
-		choices = append(choices, choice)
+		*choices = append(*choices, choice)
 	}
 	return choices
 }
@@ -189,11 +183,11 @@ func (c *Choice) ToScore() Score {
 	return score
 }
 
-func (choices *Choices) Tally() Scores {
-	scores := []Score{}
+func (choices *Choices) TallyScores() *Scores {
+	scores := &Scores{}
 	for _, choice := range *choices {
 		score := choice.ToScore()
-		scores = append(scores, score)
+		*scores = append(*scores, score)
 	}
 	return scores
 }
