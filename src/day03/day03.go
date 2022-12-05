@@ -72,12 +72,11 @@ func buildCounts(items string) map[rune]int {
 	return counts
 }
 
-
 // convert a-z -> 1-26 and A-Z -> 27 -> 52
 func rune2Priority(c rune) int {
 	ascii := int(c)
 	// char is A-Z
-	if ascii - 'a' < 0 {
+	if ascii-'a' < 0 {
 		return ascii - 'A' + 1 + 26
 	}
 	// char is a-z

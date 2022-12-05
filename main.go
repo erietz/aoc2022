@@ -1,9 +1,9 @@
 package main
 
 import (
-	"os"
-	"io"
 	"github.com/erietz/aoc2022/src/day04"
+	"io"
+	"os"
 )
 
 func main() {
