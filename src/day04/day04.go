@@ -15,8 +15,12 @@ type section struct {
 
 func Solve(input string) {
 	sections := parseSections(input)
+
 	sectionsContained := part1(sections)
 	fmt.Println("Sections contained in another section:", sectionsContained)
+
+	sectionsOverlapping := part2(sections)
+	fmt.Println("Sections overlapping each other:", sectionsOverlapping)
 }
 
 func parseSections(input string) []section {
@@ -57,6 +61,22 @@ func isContained(sec section) bool {
 	return false
 }
 
+func areOverlapping(sec section) bool {
+	if sec.elf1SecMin >= sec.elf2SecMin && sec.elf1SecMin <= sec.elf2SecMax {
+		return true
+	}
+	if sec.elf1SecMax >= sec.elf2SecMin && sec.elf1SecMax <= sec.elf2SecMax {
+		return true
+	}
+	if sec.elf2SecMin >= sec.elf1SecMin && sec.elf2SecMin <= sec.elf1SecMax {
+		return true
+	}
+	if sec.elf2SecMax >= sec.elf1SecMin && sec.elf2SecMax <= sec.elf1SecMax {
+		return true
+	}
+	return false
+}
+
 func part1(sections []section) int {
 	sectionsContained := 0
 	for _, sec := range sections {
@@ -65,4 +85,14 @@ func part1(sections []section) int {
 		}
 	}
 	return sectionsContained
+}
+
+func part2(sections []section) int {
+	sectionsOverlapping := 0
+	for _, sec := range sections {
+		if areOverlapping(sec) {
+			sectionsOverlapping += 1
+		}
+	}
+	return sectionsOverlapping
 }
