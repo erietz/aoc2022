@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func TestMinMaxTestMinMax(t *testing.T) {
+func TestMinMax(t *testing.T) {
 	testCases := []struct {
 		arr []int
 		min int

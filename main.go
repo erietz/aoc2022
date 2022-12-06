@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/erietz/aoc2022/src/day04"
+	"github.com/erietz/aoc2022/src/day05"
 	"io"
 	"os"
 )
@@ -14,5 +14,5 @@ func main() {
 
 	input := string(bytes)
 
-	day04.Solve(input)
+	day05.Solve(input)
 }

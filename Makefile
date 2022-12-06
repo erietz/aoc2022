@@ -1,4 +1,4 @@
-run: day04
+run: day05
 
 day01:
 	go run main.go < ./inputs/day01/part1.txt
