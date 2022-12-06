@@ -13,4 +13,3 @@ func MinMax(array []int) (int, int) {
 	}
 	return min, max
 }
-

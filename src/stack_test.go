@@ -9,7 +9,7 @@ func genInts() []int {
 }
 
 func genStrings() []string {
-	return []string{ "foo", "bar", "baz", "qux", "quux", "corge", "grault" }
+	return []string{"foo", "bar", "baz", "qux", "quux", "corge", "grault"}
 }
 
 func genStack[T any](items []T) Stack[T] {
@@ -43,7 +43,7 @@ func TestPopInts(t *testing.T) {
 	var ok bool
 
 	for i := 0; i < len(items); i++ {
-		expectedItem = items[len(items) - 1 - i]
+		expectedItem = items[len(items)-1-i]
 		actualItem, ok = stack.Pop()
 		if !ok {
 			t.Error("Pop should have returned true")
@@ -86,7 +86,7 @@ func TestPopStrings(t *testing.T) {
 	var ok bool
 
 	for i := 0; i < len(items); i++ {
-		expectedItem = items[len(items) - 1 - i]
+		expectedItem = items[len(items)-1-i]
 		actualItem, ok = stack.Pop()
 		if !ok {
 			t.Error("Pop should have returned true")

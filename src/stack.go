@@ -35,7 +35,6 @@ func (s *Stack[T]) Peek() (T, bool) {
 		var tmp T
 		return tmp, false
 	}
-	top := s.Items[len(s.Items) - 1]
+	top := s.Items[len(s.Items)-1]
 	return top, true
 }
-

@@ -11,8 +11,8 @@ import (
 
 type rule struct {
 	numToMove int
-	from int
-	to int
+	from      int
+	to        int
 }
 
 type crateStacks map[int]*aoc.Stack[string]
@@ -20,7 +20,7 @@ type crateStacks map[int]*aoc.Stack[string]
 func (cs crateStacks) String() string {
 	s := ""
 	for i := 0; i < len(cs); i++ {
-		s += fmt.Sprintf("Crate %d %s\n", i + 1, cs[i].String())
+		s += fmt.Sprintf("Crate %d %s\n", i+1, cs[i].String())
 	}
 	return s
 }
@@ -43,8 +43,8 @@ func Solve(input string) {
 
 func applyRulesPart1(blocks crateStacks, rules []rule) {
 	for _, rule := range rules {
-		from := blocks[rule.from - 1]
-		to := blocks[rule.to - 1]
+		from := blocks[rule.from-1]
+		to := blocks[rule.to-1]
 		for i := 0; i < rule.numToMove; i++ {
 			block, ok := from.Pop()
 			if !ok {
@@ -57,8 +57,8 @@ func applyRulesPart1(blocks crateStacks, rules []rule) {
 
 func applyRulesPart2(blocks crateStacks, rules []rule) {
 	for _, rule := range rules {
-		from := blocks[rule.from - 1]
-		to := blocks[rule.to - 1]
+		from := blocks[rule.from-1]
+		to := blocks[rule.to-1]
 
 		movingBlocks := make([]string, 0)
 		for i := 0; i < rule.numToMove; i++ {
@@ -74,7 +74,6 @@ func applyRulesPart2(blocks crateStacks, rules []rule) {
 		}
 	}
 }
-
 
 func parseInput(input string) ([]string, []string) {
 	blocks := make([]string, 0)
@@ -101,14 +100,14 @@ func parseInput(input string) ([]string, []string) {
 }
 
 func parseBlocks(blockLines []string) crateStacks {
-	numStacks := (len(blockLines[0]) + 1)/4
+	numStacks := (len(blockLines[0]) + 1) / 4
 
 	stacks := make(map[int]*aoc.Stack[string])
 	for i := 0; i < numStacks; i++ {
 		stacks[i] = &aoc.Stack[string]{}
 	}
 
-	for l := len(blockLines)-1; l>=0; l-- {
+	for l := len(blockLines) - 1; l >= 0; l-- {
 		for i, idx := 0, 1; i < numStacks; i, idx = i+1, idx+4 {
 			crate := string(blockLines[l][idx])
 			if crate != " " {
@@ -128,8 +127,8 @@ func parseRules(rulesInput []string) []rule {
 			rules,
 			rule{
 				numToMove: parseInt(res[1]),
-				from: parseInt(res[2]),
-				to: parseInt(res[3]),
+				from:      parseInt(res[2]),
+				to:        parseInt(res[3]),
 			},
 		)
 	}
