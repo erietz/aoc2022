@@ -24,13 +24,13 @@ func TestPushInts(t *testing.T) {
 	items := genInts()
 	stack := genStack(items)
 
-	if len(stack.Items) != len(items) {
-		t.Errorf("got %v, wanted %v", len(stack.Items), len(items))
+	if len(stack.items) != len(items) {
+		t.Errorf("got %v, wanted %v", len(stack.items), len(items))
 	}
 
 	for i, v := range items {
-		if stack.Items[i] != v {
-			t.Errorf("got %v, wanted %v", stack.Items[i], v)
+		if stack.items[i] != v {
+			t.Errorf("got %v, wanted %v", stack.items[i], v)
 		}
 	}
 }
@@ -67,13 +67,13 @@ func TestPushStrings(t *testing.T) {
 	items := genStrings()
 	stack := genStack(items)
 
-	if len(stack.Items) != len(items) {
-		t.Errorf("got %v, wanted %v", len(stack.Items), len(items))
+	if len(stack.items) != len(items) {
+		t.Errorf("got %v, wanted %v", len(stack.items), len(items))
 	}
 
 	for i, v := range items {
-		if stack.Items[i] != v {
-			t.Errorf("got %v, wanted %v", stack.Items[i], v)
+		if stack.items[i] != v {
+			t.Errorf("got %v, wanted %v", stack.items[i], v)
 		}
 	}
 }
@@ -124,8 +124,8 @@ func TestPeek(t *testing.T) {
 	if ok != true {
 		t.Errorf("got %v, wanted %v", ok, true)
 	}
-	if len(stack.Items) != 3 {
-		t.Errorf("got %v, wanted %v", len(stack.Items), 3)
+	if len(stack.items) != 3 {
+		t.Errorf("got %v, wanted %v", len(stack.items), 3)
 	}
 	if last != f3 {
 		t.Errorf("got %v, wanted %v", last, f3)

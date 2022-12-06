@@ -3,12 +3,12 @@ package aoc
 import "fmt"
 
 type Stack[T any] struct {
-	Items []T
+	items []T
 }
 
 func (s Stack[T]) String() string {
 	tmp := "{"
-	for _, v := range s.Items {
+	for _, v := range s.items {
 		tmp += fmt.Sprintf(" %v", v)
 	}
 	tmp += " }"
@@ -16,25 +16,25 @@ func (s Stack[T]) String() string {
 }
 
 func (s *Stack[T]) Push(item T) {
-	s.Items = append(s.Items, item)
+	s.items = append(s.items, item)
 }
 
 func (s *Stack[T]) Pop() (T, bool) {
-	if len(s.Items) == 0 {
+	if len(s.items) == 0 {
 		var tmp T
 		return tmp, false
 	}
-	idx := len(s.Items) - 1
-	top := s.Items[idx]
-	s.Items = s.Items[:idx]
+	idx := len(s.items) - 1
+	top := s.items[idx]
+	s.items = s.items[:idx]
 	return top, true
 }
 
 func (s *Stack[T]) Peek() (T, bool) {
-	if len(s.Items) == 0 {
+	if len(s.items) == 0 {
 		var tmp T
 		return tmp, false
 	}
-	top := s.Items[len(s.Items)-1]
+	top := s.items[len(s.items)-1]
 	return top, true
 }
