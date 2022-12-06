@@ -105,3 +105,34 @@ func TestPopStrings(t *testing.T) {
 		t.Error("Value popped from empty stack should be default val for type")
 	}
 }
+
+func TestPeek(t *testing.T) {
+	type foo struct {
+		t1 int
+		t2 string
+		t3 bool
+	}
+	f1 := foo{t1: 1, t2: "f1", t3: true}
+	f2 := foo{t1: 2, t2: "f2", t3: false}
+	f3 := foo{t1: 3, t2: "f3", t3: true}
+	stack := Stack[foo]{}
+	stack.Push(f1)
+	stack.Push(f2)
+	stack.Push(f3)
+
+	last, ok := stack.Peek()
+	if ok != true {
+		t.Errorf("got %v, wanted %v", ok, true)
+	}
+	if len(stack.Items) != 3 {
+		t.Errorf("got %v, wanted %v", len(stack.Items), 3)
+	}
+	if last != f3 {
+		t.Errorf("got %v, wanted %v", last, f3)
+	}
+
+	last.t2 = "last and f3 are separate copies of type foo"
+	if last == f3 {
+		t.Errorf("got %v, wanted %v", last, f3)
+	}
+}
