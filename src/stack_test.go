@@ -136,3 +136,17 @@ func TestPeek(t *testing.T) {
 		t.Errorf("got %v, wanted %v", last, f3)
 	}
 }
+
+func TestPeekEmptyStack(t *testing.T) {
+	stack := Stack[string]{}
+
+	item, ok := stack.Peek()
+
+	if ok {
+		t.Errorf("got %v, wanted %v", ok, false)
+	}
+
+	if item != "" {
+		t.Errorf("got %v, wanted %v", item, "")
+	}
+}

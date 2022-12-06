@@ -54,3 +54,17 @@ func TestDeque(t *testing.T) {
 		t.Error("Value dequed from empty queue should be default val for type")
 	}
 }
+
+func TestPeekEmptyQueue(t *testing.T) {
+	queue := Queue[string]{}
+
+	item, ok := queue.Peek()
+
+	if ok {
+		t.Errorf("got %v, wanted %v", ok, false)
+	}
+
+	if item != "" {
+		t.Errorf("got %v, wanted %v", item, "")
+	}
+}
