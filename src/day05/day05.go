@@ -27,22 +27,50 @@ func (cs crateStacks) String() string {
 
 func Solve(input string) {
 	blocksInput, rulesInput := parseInput(input)
+
 	stacks := parseBlocks(blocksInput)
 	rules := parseRules(rulesInput)
-	message := part1(stacks, rules)
-	fmt.Println(message)
+
+	message1 := part1(stacks, rules)
+	fmt.Println(message1)
+
+	// because `stacks` gets mutated from part1
+	stacks = parseBlocks(blocksInput)
+	message2 := part2(stacks, rules)
+	fmt.Println(message2)
+
 }
 
-func applyRules(blocks crateStacks, rules []rule) {
+func applyRulesPart1(blocks crateStacks, rules []rule) {
 	for _, rule := range rules {
 		from := blocks[rule.from - 1]
 		to := blocks[rule.to - 1]
 		for i := 0; i < rule.numToMove; i++ {
-			val, ok := from.Pop()
+			block, ok := from.Pop()
 			if !ok {
 				panic("tried to pop from empty stack")
 			}
-			to.Push(val)
+			to.Push(block)
+		}
+	}
+}
+
+func applyRulesPart2(blocks crateStacks, rules []rule) {
+	for _, rule := range rules {
+		from := blocks[rule.from - 1]
+		to := blocks[rule.to - 1]
+
+		movingBlocks := make([]string, 0)
+		for i := 0; i < rule.numToMove; i++ {
+			block, ok := from.Pop()
+			if !ok {
+				panic("tried to pop from empty stack")
+			}
+			movingBlocks = append(movingBlocks, block)
+		}
+
+		for i := len(movingBlocks) - 1; i >= 0; i-- {
+			to.Push(movingBlocks[i])
 		}
 	}
 }
@@ -117,9 +145,18 @@ func parseInt(num string) int {
 }
 
 func part1(stacks crateStacks, rules []rule) string {
-	applyRules(stacks, rules)
+	applyRulesPart1(stacks, rules)
 	fmt.Println(stacks)
+	return decodeMessage(stacks)
+}
 
+func part2(stacks crateStacks, rules []rule) string {
+	applyRulesPart2(stacks, rules)
+	fmt.Println(stacks)
+	return decodeMessage(stacks)
+}
+
+func decodeMessage(stacks crateStacks) string {
 	s := ""
 	for i := 0; i < len(stacks); i++ {
 		top, ok := stacks[i].Peek()

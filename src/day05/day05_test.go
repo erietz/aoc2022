@@ -20,3 +20,19 @@ func TestExample1(t *testing.T) {
 		t.Errorf("got %s, want CMZ", message)
 	}
 }
+
+func TestExample2(t *testing.T) {
+	input, err := os.ReadFile("../../inputs/day05/test1.txt")
+	if err != nil {
+		panic(err)
+	}
+
+	blocksInput, rulesInput := parseInput(string(input))
+	stacks := parseBlocks(blocksInput)
+	rules := parseRules(rulesInput)
+
+	message := part2(stacks, rules)
+	if message != "MCD" {
+		t.Errorf("got %s, want MCD", message)
+	}
+}
