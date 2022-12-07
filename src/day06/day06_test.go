@@ -19,7 +19,7 @@ func TestExamplesPart1(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(fmt.Sprintf("%s | %d", tc.stream, tc.position), func(t *testing.T) {
-			position, ok := part1(tc.stream)
+			position, ok := findUniqueSequence(tc.stream, 4)
 			if !ok {
 				t.Errorf("got %v, wanted %v", ok, true)
 			}
@@ -44,7 +44,7 @@ func TestExamplesPart2(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(fmt.Sprintf("%s | %d", tc.stream, tc.position), func(t *testing.T) {
-			position, ok := findUniqueSequence(tc.stream)
+			position, ok := findUniqueSequence(tc.stream, 14)
 			if !ok {
 				t.Errorf("got %v, wanted %v", ok, true)
 			}
