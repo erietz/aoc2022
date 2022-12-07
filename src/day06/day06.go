@@ -5,12 +5,19 @@ import (
 	"strings"
 )
 
+
 func Solve(input string) {
-	position, ok := part1(strings.TrimSpace(input))
+	position1, ok := part1(strings.TrimSpace(input))
 	if !ok {
 		panic("No marker found in string")
 	}
-	fmt.Println("Part 1 position", position)
+	fmt.Println("Part 1 position", position1)
+
+	position2, ok := part2(strings.TrimSpace(input))
+	if !ok {
+		panic("No marker found in string")
+	}
+	fmt.Println("Part 2 position", position2)
 }
 
 func part1(stream string) (int, bool) {
@@ -25,4 +32,32 @@ func part1(stream string) (int, bool) {
 		}
 	}
 	return 0, false
+}
+
+func part2(stream string) (int, bool) {
+	low := 0
+	high := low + 14
+
+	for high < len(stream) {
+		if isUnique(stream[low:high]) {
+			return high, true
+		}
+		low++
+		high++
+	}
+
+	return -1, false
+}
+
+type nothing struct{}
+
+func isUnique(str string) bool {
+	runes := make(map[rune]nothing)
+	for _, s := range str {
+		runes[s] = nothing{}
+	}
+	if len(runes) == len(str) {
+		return true
+	}
+	return false
 }
