@@ -25,7 +25,6 @@ func (n *Node[T]) AppendChild(child *Node[T]) *Node[T] {
 		sibling.Next = child
 	} else {
 		n.Children = child
-		// child.Parent.Children = child
 	}
 
 	return child
