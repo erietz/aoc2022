@@ -5,38 +5,19 @@ import (
 	"strings"
 )
 
-
 func Solve(input string) {
-	position1, ok := part1(strings.TrimSpace(input))
-	if !ok {
-		panic("No marker found in string")
-	}
-	fmt.Println("Part 1 position", position1)
+	position1, _ := findUniqueSequence(strings.TrimSpace(input), 4)
+	position2, _ := findUniqueSequence(strings.TrimSpace(input), 14)
 
-	position2, ok := part2(strings.TrimSpace(input))
-	if !ok {
-		panic("No marker found in string")
-	}
+	// Part 1 position 1848
+	fmt.Println("Part 1 position", position1)
+	// Part 2 position 2308
 	fmt.Println("Part 2 position", position2)
 }
 
-func part1(stream string) (int, bool) {
-	for i, j, k, l := 0, 1, 2, 3; l < len(stream); i, j, k, l = i+1, j+1, k+1, l+1 {
-		if stream[i] != stream[j] &&
-			stream[i] != stream[k] &&
-			stream[i] != stream[l] &&
-			stream[j] != stream[k] &&
-			stream[j] != stream[l] &&
-			stream[k] != stream[l] {
-			return l + 1, true
-		}
-	}
-	return 0, false
-}
-
-func part2(stream string) (int, bool) {
+func findUniqueSequence(stream string, markerSize int) (int, bool) {
 	low := 0
-	high := low + 14
+	high := low + markerSize
 
 	for high < len(stream) {
 		if isUnique(stream[low:high]) {

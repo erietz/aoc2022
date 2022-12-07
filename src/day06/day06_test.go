@@ -44,7 +44,7 @@ func TestExamplesPart2(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(fmt.Sprintf("%s | %d", tc.stream, tc.position), func(t *testing.T) {
-			position, ok := part2(tc.stream)
+			position, ok := findUniqueSequence(tc.stream)
 			if !ok {
 				t.Errorf("got %v, wanted %v", ok, true)
 			}
