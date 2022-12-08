@@ -2,8 +2,8 @@ package day07
 
 import (
 	"fmt"
-	"strings"
 	"strconv"
+	"strings"
 
 	"github.com/erietz/aoc2022/src"
 )
@@ -27,6 +27,25 @@ func sumDirsLessThanSize(root *aoc.Node[File], size int) int {
 	return sumDirsLessThanSizeHelper(root, size, &sum)
 }
 
+func sumDirsLessThanSizeHelper(root *aoc.Node[File], size int, sum *int) int {
+	if root == nil {
+		return 0
+	}
+
+	if root.Value.IsDir {
+		dirSize := calcDirSize(root)
+		if dirSize < size {
+			*sum += dirSize
+		}
+	}
+
+	for curr := root.Children; curr != nil; curr = curr.Next {
+		sumDirsLessThanSizeHelper(curr, size, sum)
+	}
+
+	return *sum
+}
+
 func findDirToDelete(root *aoc.Node[File]) int {
 	totalDiskSize := 70000000
 	updateSize := 30000000
@@ -35,8 +54,7 @@ func findDirToDelete(root *aoc.Node[File]) int {
 	spaceNeededForUpdate := updateSize - freeSpace
 
 	tmp := totalDiskSize
-	smallestDir := &tmp
-	return findDirToDeleteHelper(root, spaceNeededForUpdate, smallestDir)
+	return findDirToDeleteHelper(root, spaceNeededForUpdate, &tmp)
 }
 
 func findDirToDeleteHelper(root *aoc.Node[File], spaceNeededForUpdate int, smallestDir *int) int {
@@ -56,25 +74,6 @@ func findDirToDeleteHelper(root *aoc.Node[File], spaceNeededForUpdate int, small
 	}
 
 	return *smallestDir
-}
-
-func sumDirsLessThanSizeHelper(root *aoc.Node[File], size int, sum *int) int {
-	if root == nil {
-		return 0
-	}
-
-	if root.Value.IsDir {
-		dirSize := calcDirSize(root)
-		if dirSize < size {
-			*sum += dirSize
-		}
-	}
-
-	for curr := root.Children; curr != nil; curr = curr.Next {
-		sumDirsLessThanSizeHelper(curr, size, sum)
-	}
-
-	return *sum
 }
 
 func calcDirSize(file *aoc.Node[File]) int {
