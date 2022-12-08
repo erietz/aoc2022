@@ -16,8 +16,9 @@ type File struct {
 
 func Solve(input string) {
 	root := parseTree(input)
-	fmt.Println("Sum:", sumDirsLessThanSize(root, 100000))
-
+	// Part 1: 1749646
+	fmt.Println("Part 1:", sumDirsLessThanSize(root, 100000))
+	// Part 2: 1498966
 	fmt.Println("Part 2:", findDirToDelete(root))
 }
 
