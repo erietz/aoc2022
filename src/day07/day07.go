@@ -17,11 +17,44 @@ type File struct {
 func Solve(input string) {
 	root := parseTree(input)
 	fmt.Println("Sum:", sumDirsLessThanSize(root, 100000))
+
+	fmt.Println("Part 2:", findDirToDelete(root))
 }
 
 func sumDirsLessThanSize(root *aoc.Node[File], size int) int {
 	sum := 0
 	return sumDirsLessThanSizeHelper(root, size, &sum)
+}
+
+func findDirToDelete(root *aoc.Node[File]) int {
+	totalDiskSize := 70000000
+	updateSize := 30000000
+	rootSize := calcDirSize(root)
+	freeSpace := totalDiskSize - rootSize
+	spaceNeededForUpdate := updateSize - freeSpace
+
+	tmp := totalDiskSize
+	smallestDir := &tmp
+	return findDirToDeleteHelper(root, spaceNeededForUpdate, smallestDir)
+}
+
+func findDirToDeleteHelper(root *aoc.Node[File], spaceNeededForUpdate int, smallestDir *int) int {
+	if root == nil {
+		return 0
+	}
+
+	if root.Value.IsDir {
+		dirSize := calcDirSize(root)
+		if dirSize >= spaceNeededForUpdate && dirSize <= *smallestDir {
+			*smallestDir = dirSize
+		}
+	}
+
+	for curr := root.Children; curr != nil; curr = curr.Next {
+		findDirToDeleteHelper(curr, spaceNeededForUpdate, smallestDir)
+	}
+
+	return *smallestDir
 }
 
 func sumDirsLessThanSizeHelper(root *aoc.Node[File], size int, sum *int) int {
