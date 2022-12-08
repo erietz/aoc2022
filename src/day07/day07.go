@@ -101,26 +101,6 @@ func calcDirSizeHelper(file *aoc.Node[File], sum *int) int {
 	return *sum
 }
 
-func hasSubDir(file *aoc.Node[File]) bool {
-	for curr := file.Children; curr != nil; curr = curr.Next {
-		if curr.Value.IsDir {
-			return true
-		}
-	}
-	return false
-}
-
-
-func traverseTree(root *aoc.Node[File]) {
-	if root == nil {
-		return
-	}
-
-	fmt.Println(root.Value.Name)
-	traverseTree(root.Children)
-	traverseTree(root.Next)
-}
-
 func parseTree(input string) *aoc.Node[File] {
 	curr := aoc.NewNode(File{Name: "root", IsDir: true, Size: 0})
 	root := curr
