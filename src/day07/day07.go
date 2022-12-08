@@ -16,49 +16,64 @@ type File struct {
 
 func Solve(input string) {
 	root := parseTree(input)
-	calcDirSizes(root.Children)
-	fmt.Println(sumDirsLessThan100000(root.Children))
+	fmt.Println("Sum:", sumDirsLessThanSize(root, 100000))
 }
 
-func sumDirsLessThan100000(root *aoc.Node[File]) int {
-	return _sumDirsLessThan100000(root, 0)
+func sumDirsLessThanSize(root *aoc.Node[File], size int) int {
+	sum := 0
+	return sumDirsLessThanSizeHelper(root, size, &sum)
 }
 
-func _sumDirsLessThan100000(root *aoc.Node[File], sum int) int {
+func sumDirsLessThanSizeHelper(root *aoc.Node[File], size int, sum *int) int {
 	if root == nil {
-		return sum
-	}
-
-	if root.Value.IsDir && root.Value.Size < 100000 {
-		sum += root.Value.Size
-	}
-
-	return _sumDirsLessThan100000(root.Children, sum) + _sumDirsLessThan100000(root.Next, sum)
-}
-
-func calcDirSizes(root *aoc.Node[File]) {
-	if root == nil {
-		return
+		return 0
 	}
 
 	if root.Value.IsDir {
-		root.Value.Size = calcDirSize(root)
+		dirSize := calcDirSize(root)
+		if dirSize < size {
+			*sum += dirSize
+		}
 	}
 
-	calcDirSizes(root.Children)
-	calcDirSizes(root.Next)
+	for curr := root.Children; curr != nil; curr = curr.Next {
+		sumDirsLessThanSizeHelper(curr, size, sum)
+	}
+
+	return *sum
 }
 
 func calcDirSize(file *aoc.Node[File]) int {
-	return _calcDirSize(file.Children, 0)
+	if !file.Value.IsDir {
+		panic("File is not a directory")
+	}
+
+	size := 0
+	return calcDirSizeHelper(file, &size)
 }
 
-func _calcDirSize(file *aoc.Node[File], sum int) int {
+func calcDirSizeHelper(file *aoc.Node[File], sum *int) int {
 	if file == nil {
-		return sum
+		return 0
 	}
-	sum += file.Value.Size
-	return _calcDirSize(file.Children, sum)
+
+	if !file.Value.IsDir {
+		*sum += file.Value.Size
+	}
+
+	for curr := file.Children; curr != nil; curr = curr.Next {
+		calcDirSizeHelper(curr, sum)
+	}
+	return *sum
+}
+
+func hasSubDir(file *aoc.Node[File]) bool {
+	for curr := file.Children; curr != nil; curr = curr.Next {
+		if curr.Value.IsDir {
+			return true
+		}
+	}
+	return false
 }
 
 
