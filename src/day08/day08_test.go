@@ -74,3 +74,30 @@ func TestPart1(t *testing.T) {
 	}
 }
 
+func TestViewingDistance(t *testing.T) {
+	forest := generateForest()
+	testCases := []struct{
+		row int
+		col int
+		distance int
+	}{
+		{1, 2, 4},
+		{3, 2, 8},
+	}
+	for _, tc := range testCases {
+		distance := viewingDistance(forest, tc.row, tc.col)
+		if distance != tc.distance {
+			t.Errorf("got %v, wanted %v", distance, tc.distance)
+		}
+	}
+}
+
+func TestPart2(t *testing.T) {
+	forest := generateForest()
+	distance := part2(forest)
+
+	if distance != 8 {
+		t.Errorf("got %v, wanted %v", distance, 8)
+	}
+}
+

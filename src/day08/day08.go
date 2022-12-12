@@ -14,15 +14,15 @@ type Forest struct {
 
 func Solve(input string) {
 	forest := parseInput(input)
-	// fmt.Println(forest)
-	fmt.Println(part1(forest))
+	fmt.Println("part 1", part1(forest))
+	fmt.Println("part 2", part2(forest))
 }
 
 func parseInput(input string) Forest {
 	trees := make([][]int, 0)
 	rows := 0
 
-	for _, line := range strings.Split(strings.TrimSpace(input), "\n") {
+	for _, line := range strings.Fields(strings.TrimSpace(input)) {
 		row := make([]int, 0)
 		for _, char := range strings.Split(line, "") {
 			height, err := strconv.Atoi(char)
@@ -177,4 +177,56 @@ func part1(forest Forest) int {
 	}
 
 	return inner + edges(forest)
+}
+
+func viewingDistance(forest Forest, row, col int) int {
+	left, right, up, down := 0, 0, 0, 0
+	height := forest.Trees[row][col]
+
+	// left
+	for i := col - 1; i >= 0; i-- {
+		left++
+		if forest.Trees[row][i] >= height {
+			break
+		}
+	}
+
+	// right
+	for i := col + 1; i < forest.Cols; i++ {
+		right++
+		if forest.Trees[row][i] >= height {
+			break
+		}
+	}
+
+	// up
+	for i := row - 1; i >= 0; i-- {
+		up++
+		if forest.Trees[i][col] >= height {
+			break
+		}
+	}
+
+	// down
+	for i := row + 1; i < forest.Rows; i++ {
+		down++
+		if forest.Trees[i][col] >= height {
+			break
+		}
+	}
+
+	return left * right * up * down
+}
+
+func part2(forest Forest) int {
+	max := 0
+	for i := 1; i < forest.Rows - 1; i++ {
+		for j := 1; j < forest.Cols - 1; j++ {
+			distance := viewingDistance(forest, i, j)
+			if distance > max {
+				max = distance
+			}
+		}
+	}
+	return max
 }
